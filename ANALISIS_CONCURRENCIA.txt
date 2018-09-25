@@ -1,0 +1,1 @@
+Se podrian realizar solicitudes al mismo tiempo sobre objetos que dañarian la integridad de los datos como lo podria ser que un usuario liberara una mesa al mismo tiempo que otro agrega una orden .
