@@ -11,7 +11,7 @@ var product;
     var getOrders = function () {
                network.loadOrders();
          };
-    var setProduct1 = function (p) {
+    var setProduct = function (p) {
                    product=p;
              };
     var getProduct = function () {
@@ -22,22 +22,19 @@ var product;
               orders=ord;
         };
 
-   var getProduct = async function (id) {
+   var loadProduct =  function (order,id,table) {
 
-                 return await network.getSpecificPrice(id);
+           network.getSpecificProduct(order,id,table);
            };
    return {
-         getProduct1: getProduct1,
+         getProduct: getProduct,
          setProduct: setProduct,
          getOrders: getOrders,
          setOrders: setOrders,
          getCurrentOrders: getCurrentOrders,
-         getProduct:getProduct
+         loadProduct: loadProduct
    };
 })();
-
-
-
 
 
 function showOrdersByTable(){
@@ -48,31 +45,29 @@ function showOrdersByTable(){
 
 
 
-  async function paintTables(){
+   function paintTables(){
       var ordersList=frontEnd.getCurrentOrders();
       for(var order=0;order<ordersList.length;order++){
 
-                  var orderArrayHeader = ["Product","Quantity","Price"];
-                  var body = document.getElementById("orders");
-                         tbl  = document.createElement("table");
+                   var orderArrayHeader = ["Product","Quantity","Price"];
+                   var body = document.getElementById("orders");
+                   var titulo=order+1;
+                   var tituloTabla =document.createElement("h5");
+
+                   tituloTabla.appendChild(document.createTextNode("Table "+titulo));
+                   body.appendChild(tituloTabla);
+                   var tbl  = document.createElement("table");
                      tbl.setAttribute("class","table table-striped");
                      tbl.setAttribute("id", order);
 
 
                      for(var i=0;i<Object.keys(ordersList[order].orderAmountsMap).length;i++){
                             var clave=Object.keys(ordersList[order].orderAmountsMap)[i];
-                             console.log(frontEnd.getProduct(clave));
-                            await frontEnd.getProduct1(clave);
-                            var product=await frontEnd.getProduct1();
+                             frontEnd.loadProduct(order,clave,tbl);
 
 
-                         var tr = tbl.insertRow();
-                                 var td = tr.insertCell();
-                                 td.appendChild(document.createTextNode(clave));
-                                 td = tr.insertCell();
-                                 td.appendChild(document.createTextNode(ordersList[order].orderAmountsMap[clave]));
-                                 td = tr.insertCell();
-                                 td.appendChild(document.createTextNode(product.price));
+
+
                      }
                      body.appendChild(tbl);
                      tbl=document.getElementById(order);
@@ -82,12 +77,52 @@ function showOrdersByTable(){
                         var cell = row.insertCell(i);
                         cell.outerHTML ="<th scope='col'>"+ orderArrayHeader[i]+"<th>";}
 
+                     row.deleteCell(5);
+                     row.deleteCell(4);
                      row.deleteCell(3);
-                     row.deleteCell(2);
                      txt = document.createTextNode('\x0A');
                      tbl.appendChild(txt);
 
                  }
 
 
-}
+        }
+
+       function createRow(id,order,table,product){
+             var ordersList=frontEnd.getCurrentOrders();
+             var tr = table.insertRow();
+             var td = tr.insertCell();
+             td.appendChild(document.createTextNode(product.name));
+             td = tr.insertCell();
+             td.appendChild(document.createTextNode(ordersList[order].orderAmountsMap[id]));
+             td = tr.insertCell();
+             td.appendChild(document.createTextNode(ordersList[order].orderAmountsMap[id]*product.price));
+       }
+       function loadUpdateOrdersPage(){
+
+            var ordersList=frontEnd.getCurrentOrders();
+
+            var dropdown = document.getElementById("dpwSelectTable");
+             for(var order=0;order<ordersList.length;order++){
+                var dropdownButton =document.createElement("button");
+                dropdownButton.setAttribute("class","dropdown-item");
+                dropdownButton.setAttribute("type", "button");
+                dropdownButton.setAttribute("id", "Table "+ordersList[order].tableNumber);
+                dropdownButton.appendChild(document.createTextNode("Table "+ordersList[order].tableNumber));
+                dropdown.appendChild(dropdownButton);
+             }
+
+       }
+        document.addEventListener("DOMContentLoaded", function(event) {
+             $(function(){
+
+                     $('#addOrderBtn').on('click', function (e) {
+
+                         alert('Hello!');
+
+                     });
+
+
+                     });
+        });
+

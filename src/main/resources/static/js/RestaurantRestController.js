@@ -1,7 +1,7 @@
  var network = (function () {
 
-   var loadOrders =function () {
-               getOrdersRequest();
+   var loadOrders =function (callback) {
+               getOrdersRequest(callback);
    };
 
 
@@ -21,7 +21,7 @@
 
 
 
- function getOrdersRequest(){
+ function getOrdersRequest(callback){
 
            axios.get( "http://localhost:8080/orders")
            .then(function (response) {
@@ -34,7 +34,7 @@
 
            })
            .then( function () {
-                paintTables();
+                callback();
                
 
 

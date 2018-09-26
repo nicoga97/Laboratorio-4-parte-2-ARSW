@@ -3,16 +3,30 @@
 var frontEnd = (function () {
 var orders;
 var product;
+var slectedTable;
 
     var getCurrentOrders = function () {
            return orders;
      };
 
-    var getOrders = function () {
-               network.loadOrders();
+    var getOrders = function (callback) {
+               network.loadOrders(callback);
          };
     var setProduct = function (p) {
                    product=p;
+             };
+    var getSlectedTable = function () {
+                   return slectedTable;
+             };
+    var setSlectedTable = function (table) {
+               for(var i=0;i<orders.length;i++){
+                  if(orders[i].tableNumber==table){
+                    slectedTable=orders[i];
+                    console.log(slectedTable);
+                    break;
+                  }
+               }
+
              };
     var getProduct = function () {
                   return product;
@@ -27,6 +41,8 @@ var product;
            network.getSpecificProduct(order,id,table);
            };
    return {
+         setSlectedTable:setSlectedTable,
+         getSlectedTable:getSlectedTable,
          getProduct: getProduct,
          setProduct: setProduct,
          getOrders: getOrders,
@@ -38,7 +54,7 @@ var product;
 
 
 function showOrdersByTable(){
-    frontEnd.getOrders();
+    frontEnd.getOrders(paintTables);
     }
 
 
@@ -86,41 +102,58 @@ function showOrdersByTable(){
                  }
 
 
-        }
+   }
 
-       function createRow(id,order,table,product){
-             var ordersList=frontEnd.getCurrentOrders();
-             var tr = table.insertRow();
-             var td = tr.insertCell();
-             td.appendChild(document.createTextNode(product.name));
-             td = tr.insertCell();
-             td.appendChild(document.createTextNode(ordersList[order].orderAmountsMap[id]));
-             td = tr.insertCell();
-             td.appendChild(document.createTextNode(ordersList[order].orderAmountsMap[id]*product.price));
-       }
-       function loadUpdateOrdersPage(){
+   function createRow(id,order,table,product){
+         var ordersList=frontEnd.getCurrentOrders();
+         var tr = table.insertRow();
+         var td = tr.insertCell();
+         td.appendChild(document.createTextNode(product.name));
+         td = tr.insertCell();
+         td.appendChild(document.createTextNode(ordersList[order].orderAmountsMap[id]));
+         td = tr.insertCell();
+         td.appendChild(document.createTextNode(ordersList[order].orderAmountsMap[id]*product.price));
+   }
 
-            var ordersList=frontEnd.getCurrentOrders();
+   function loadUpdateOrdersPage(){
 
-            var dropdown = document.getElementById("dpwSelectTable");
-             for(var order=0;order<ordersList.length;order++){
-                var dropdownButton =document.createElement("button");
-                dropdownButton.setAttribute("class","dropdown-item");
-                dropdownButton.setAttribute("type", "button");
-                dropdownButton.setAttribute("id", "Table "+ordersList[order].tableNumber);
-                dropdownButton.appendChild(document.createTextNode("Table "+ordersList[order].tableNumber));
-                dropdown.appendChild(dropdownButton);
-             }
+        frontEnd.getOrders(loadDropdownButton);
 
-       }
-        document.addEventListener("DOMContentLoaded", function(event) {
-             $(function(){
 
-                     $('#addOrderBtn').on('click', function (e) {
 
-                         alert('Hello!');
+   }
+   function loadDropdownButton(){
+         var ordersList=frontEnd.getCurrentOrders();
+         var dropdown = document.getElementById("dpwSelectTable");
+         for(var order=0;order<ordersList.length;order++){
+             if(order==0){
+               changeSelectedTable(ordersList[order].tableNumber);
+                }
+            var dropdownButton =document.createElement("button");
+            dropdownButton.setAttribute("class","dropdown-item");
+            dropdownButton.setAttribute("type", "button");
+            dropdownButton.setAttribute("onclick", "changeSelectedTable("+ordersList[order].tableNumber+")");
+            dropdownButton.setAttribute("id", "Table "+ordersList[order].tableNumber);
+            dropdownButton.appendChild(document.createTextNode("Table "+ordersList[order].tableNumber));
+            dropdown.appendChild(dropdownButton);
+         }
 
-                     });
+   }
+
+   function changeSelectedTable(table){
+        document.getElementById("dropdownbtn").innerHTML="Table "+table;
+        frontEnd.setSlectedTable(table);
+
+   }
+
+    document.addEventListener("DOMContentLoaded", function(event) {
+         $(function(){
+
+                 $('#addOrderBtn').on('click', function (e) {
+
+                     alert('Hello!');
+
+                 });
 
 
                      });
