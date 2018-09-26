@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=yes">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="https://getbootstrap.com/favicon.ico">
+
+    <title></title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="css/bootstrap.css" rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <link href="css/cover.css" rel="stylesheet">
+  </head>
+
+  <body class="text-center" onload="loadUpdateOrdersPage()" >
+
+    <div class="cover-container d-flex h-10 p-3 mx-auto flex-column">
+      <header class="masthead mb-auto">
+        <div class="inner">
+          <h3 class="masthead-brand">Update Orders</h3>
+          <nav class="nav nav-masthead justify-content-center">
+              <a class="nav-link" href="index.html">Orders</a>
+              <a class="nav-link active" href="updateOrders.html">Update Orders</a>
+          </nav>
+        </div>
+      </header>
+        <main role="main" class="inner cover" id="main">
+            <div class="container">
+                <div class="row">
+                    <div class="col-sm-4">
+                        <div class="dropdown">
+                            <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                Dropdown
+                            </button>
+                            <div class="dropdown-menu" id="dpwSelectTable" aria-labelledby="dropdown">
+
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-5">
+                        <div class="input-group mb-3">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text" id="itemName">Item Name</span>
+                            </div>
+                            <input type="text" class="form-control" placeholder="" aria-label="" aria-describedby="basic-addon1">
+                        </div>
+                        <div class="input-group mb-3">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text" id="quantity">Quantity</span>
+                            </div>
+                            <input type="text" class="form-control" placeholder="" aria-label="" aria-describedby="basic-addon1">
+                        </div>
+                    </div>
+                    <div class="col-sm-3">
+                        <button class="btn btn-primary" id="addOrderBtn" type="button">Add</button>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-4">
+                        <h3>Item</h3>
+                    </div>
+                    <div class="col-sm-4">
+                        <h3>Quality</h3>
+                    </div>
+                </div>
+
+            </div>
+
+
+        </main>
+
+
+
+    </div>
+
+
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="js/OrdersController.js"></script>
+    <script src="js/RestaurantRestController.js"></script>
+    <script src="js/jquery-3.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script>window.jQuery || document.write('<script src="js/jquery-slim.min.js"><\/script>')</script>
+    <script src="js/popper.js"></script>
+    <script src="js/bootstrap.js"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+
+
+
+  
+
+</body></html>

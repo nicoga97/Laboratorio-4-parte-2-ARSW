@@ -4,18 +4,16 @@
                getOrdersRequest();
    };
 
-    var getCurrentOrders = function () {
-           return orders;
-     };
 
-   var getSpecificPrice =  async function (id) {
 
-            return  await getPrice(id)
+   var getSpecificProduct =   function (order,id,table) {
+
+            return   getProduct(order,id,table)
        };
    return {
          loadOrders: loadOrders,
-         getCurrentOrders: getCurrentOrders,
-         getSpecificPrice: getSpecificPrice
+
+         getSpecificProduct: getSpecificProduct
    };
  })();
 
@@ -29,6 +27,7 @@
            .then(function (response) {
                 frontEnd.setOrders(response.data);
 
+
            })
            .catch(function (error) {
              console.log('There is a problem with our servers. We apologize for the inconvince, please try again later', error.message);
@@ -36,21 +35,24 @@
            })
            .then( function () {
                 paintTables();
+               
+
 
            });
 
     }
 
-     async function getPrice(p){
-               await axios.get( "http://localhost:8080/orders/"+p)
-                       .then(  function (response) {
-                             frontEnd.setProduct(response.data)   ;
+     function getProduct(order,id,table){
+                var product
+                axios.get( "http://localhost:8080/orders/"+id)
+                       .then(  async function (response) {
+                             product= response.data   ;
                        })
                        .catch(function (error) {
                          console.log('There is a problem with our servers. We apologize for the inconvince, please try again later', error.message);;
                        })
                        .then(function () {
-                         // always executed
+                         createRow(id,order,table,product);
                        });
         }
 
